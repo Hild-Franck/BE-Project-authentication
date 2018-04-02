@@ -1,0 +1,27 @@
+language: node_js
+
+node_js:
+  - node
+
+env:
+  global:
+    - NODE_ENV=ci
+
+services:
+  - redis-server
+
+cache:
+  directories:
+    - "node_modules"
+
+branches:
+  only:
+    - master
+    - staging
+    - develop
+
+install:
+  - npm install
+
+script:
+  - npm test

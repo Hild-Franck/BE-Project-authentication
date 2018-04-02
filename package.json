@@ -1,0 +1,31 @@
+{
+  "name": "be-project-authentication",
+  "version": "0.0.1",
+  "description": "Authentication service for the BE-Project stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hild-Franck/BE-Project-authentication.git"
+  },
+  "keywords": [
+    "auth"
+  ],
+  "author": "Hild Franck <franck.hild@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hild-Franck/BE-Project-authentication/issues"
+  },
+  "homepage": "https://github.com/Hild-Franck/BE-Project-authentication#readme",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "nyc": "^11.6.0"
+  },
+  "ava": {
+    "files": [
+      "test/**/*-test.js"
+    ]
+  }
+}
