@@ -2,7 +2,7 @@ const http = require('http')
 const express = require('express')
 const bodyParser = require("body-parser")
 
-const logger = require('../logger')
+const logger = require('./logger')
 const routes = require('./routes')
 
 const app = express()

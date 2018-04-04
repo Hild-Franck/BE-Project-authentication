@@ -1,7 +1,8 @@
 const init = require('./init')
 const register = require('./register')
+const config = require('./config')
 
-const database = init().then(db => ({
+const database = init(config).then(db => ({
 	register: register(db)
 }))
 
