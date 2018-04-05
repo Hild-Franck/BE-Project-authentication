@@ -23,12 +23,9 @@ const auth = db => ({ username, password }) => {
 			return { validation: false, message }
 		}
 		const message = "Logged !"
-		const playerData = {
-			username: playerHash.username,
-		}
 
 		logger.info(`User ${username} logged !`)
-		return { validation: true, message, playerData }
+		return { validation: true, message, playerData: playerHash }
 	})
 }
 
