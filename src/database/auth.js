@@ -1,0 +1,29 @@
+const hash = require('hash.js')
+
+const logger = require('../logger')
+
+const salt = "superjesus"
+
+const auth = db => ({ username, password }) => {
+	if (!username || !password) {
+		const message = "Incorrect login format"
+		logger.error(message)				
+		return { validation: false, message }
+	}
+	return db.hgetallAsync(username).then(playerHash => {
+		if (!playerHash) {
+			const message = "Username doesn't exists"
+			logger.error(message)
+			return { validation: false, message }
+		}
+		const message = "Logged !"
+		const playerData = {
+			username: playerHash.username,
+		}
+		
+		logger.info(`User ${username} logged !`)
+		return { validation: true, message, playerData }
+	})
+}
+
+module.exports = auth
