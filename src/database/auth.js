@@ -16,11 +16,17 @@ const auth = db => ({ username, password }) => {
 			logger.error(message)
 			return { validation: false, message }
 		}
+		const hashedPassword = hash.sha512().update(`${salt}:${password}`).digest("hex")
+		if (hashedPassword != playerHash.password) {
+			const message = `Wrong password for user ${username}`
+			logger.error(message)
+			return { validation: false, message }
+		}
 		const message = "Logged !"
 		const playerData = {
 			username: playerHash.username,
 		}
-		
+
 		logger.info(`User ${username} logged !`)
 		return { validation: true, message, playerData }
 	})

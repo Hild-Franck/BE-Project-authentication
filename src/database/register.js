@@ -18,7 +18,7 @@ const register = db => ({ username, password }) => {
 		}
 		return db.hmsetAsync(username,
 			"username", username,
-			"password", hash.sha512(`${salt}:${password}`).digest("hex")
+			"password", hash.sha512().update(`${salt}:${password}`).digest("hex")
 		).then(() => {
 			const message = "User created ! :)"
 			logger.info(message)
