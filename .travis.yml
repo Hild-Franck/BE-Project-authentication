@@ -3,6 +3,7 @@ node_js:
 - node
 env:
   global:
+  - CC_TEST_REPORTER_ID=9fe8916d10e099f6bdc1b7f1bd9626fad6f4e799f567b4889125c09127617542
   - NODE_ENV=ci
 services:
 - redis-server
@@ -14,8 +15,15 @@ branches:
   - master
   - staging
   - develop
+
 install:
 - npm install
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
 script:
 - npm test
 
