@@ -10,6 +10,8 @@ env:
   global:
   - CC_TEST_REPORTER_ID=9fe8916d10e099f6bdc1b7f1bd9626fad6f4e799f567b4889125c09127617542
   - NODE_ENV=ci
+  - SERVER='52.70.188.82'
+  
 services:
 - redis-server
 cache:
