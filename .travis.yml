@@ -34,6 +34,9 @@ before_script:
 script:
 - npm test
 
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_97069491716d_key -iv $encrypted_97069491716d_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
