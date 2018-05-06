@@ -1,6 +1,7 @@
 const hash = require('hash.js')
+const consola = require('consola')
 
-const logger = require('../logger')
+const logger = consola.withScope('registration')
 
 const salt = "superjesus"
 
@@ -12,7 +13,7 @@ const register = db => ({ username, password }) => {
 	}
 	return db.hlenAsync(username).then(number => {
 		if (number != 0) {
-			const message = "Username already exist"
+			const message = `Username ${username} already exist`
 			logger.error(message)
 			return { validation: false, message }
 		}
@@ -20,8 +21,8 @@ const register = db => ({ username, password }) => {
 			"username", username,
 			"password", hash.sha512().update(`${salt}:${password}`).digest("hex")
 		).then(() => {
-			const message = "User created ! :)"
-			logger.info(message)
+			const message = `User ${username} created ! :)`
+			logger.success(message)
 			return { validation: true, message }
 		})
 	})

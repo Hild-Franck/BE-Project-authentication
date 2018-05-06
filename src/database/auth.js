@@ -1,6 +1,7 @@
 const hash = require('hash.js')
+const consola = require('consola')
 
-const logger = require('../logger')
+const logger = consola.withScope('authentication')
 
 const salt = "superjesus"
 
@@ -24,7 +25,7 @@ const auth = db => ({ username, password }) => {
 		}
 		const message = "Logged !"
 
-		logger.info(`User ${username} logged !`)
+		logger.success(`User ${username} logged !`)
 		return { validation: true, message, playerData: playerHash }
 	})
 }

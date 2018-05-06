@@ -1,9 +1,12 @@
 const http = require('http')
 const express = require('express')
 const bodyParser = require("body-parser")
+const consola = require('consola')
 
-const logger = require('./logger')
 const routes = require('./routes')
+
+const logger = consola.withScope("main")
+
 
 const app = express()
 app.use(bodyParser.json())
