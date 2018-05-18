@@ -8,7 +8,6 @@ const res = {
 	json: () => {},
 	end: () => {
 		res.check++
-		if (res.resolve) res.resolve()
 	}
 }
 
@@ -20,16 +19,14 @@ const app = {
 	post: (route, cb) => {
 		if (route === "/auth") app.check.auth = true
 		if (route === "/register") app.check.register = true
-		if (app.resolve) res.resolve = app.resolve
 		cb({body: ""}, res)
 	}
 }
 
-ava.before(() => new Promise((resolve, reject) => {
+ava.before(() => {
 	createAuthRoute(app)
-	app.resolve = resolve
 	createRegisterRoute(app)
-}))
+})
 
 ava("auth route created", t => {
 	t.is(app.check.auth, true)

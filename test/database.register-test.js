@@ -23,19 +23,22 @@ const db = {
 const register = createRegister(db)
 
 ava("invalid format if no password or no no username", t => {
-	const data = register({username:"pouet", password:""})
-	t.is(data.validation, false)
-	t.is(data.message, "Incorrect login format")
+	return register({username:"pouet", password:""}).then(data => {
+		t.is(data.validation, false)
+		t.is(data.message, "Incorrect login format")
+	})
 })
 
 ava("username error if username already used", t => {
-	const data = register({username:"jesus", password: "raptor"})
-	t.is(data.validation, false)
-	t.is(data.message, "Username already exist")
+	return register({username:"jesus", password: "raptor"}).then(data => {
+		t.is(data.validation, false)
+		t.is(data.message, "Username jesus already exist")
+	})
 })
 
 ava("username stored", t => {
-	const data = register({username:"chuck", password: "raptor"})
-	t.is(data.validation, true)
-	t.is(data.message, "User created ! :)")
+	return register({username:"chuck", password: "raptor"}).then(data => {
+		t.is(data.validation, true)
+		t.is(data.message, "User chuck created ! :)")
+	})
 })

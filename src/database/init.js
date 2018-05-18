@@ -1,12 +1,14 @@
 const redis = require('redis')
 const bluebird = require('bluebird')
+const consola = require('consola')
 
-const logger = require('../logger')
+const logger = consola.withScope('db.init')
 
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 
 const init = config => new Promise((resolve, reject) => {
+	logger.info("Database initialization")
 	config.retry_strategy = options => {
 		const err = `Unable to connect to redis: ${options.error.message}`
 		if (options.attempt > config.maxRetry) {
@@ -22,7 +24,7 @@ const init = config => new Promise((resolve, reject) => {
 		logger.error(`Error on redis: ${err.message}`)
 	})
 	client.on('ready', ev => {
-		logger.info('Connected to redis')
+		logger.success('Connected to redis')
 		resolve(client)
 	})
 })
