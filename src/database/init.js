@@ -8,6 +8,7 @@ bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 
 const init = config => new Promise((resolve, reject) => {
+	logger.info("Database initialization")
 	config.retry_strategy = options => {
 		const err = `Unable to connect to redis: ${options.error.message}`
 		if (options.attempt > config.maxRetry) {
