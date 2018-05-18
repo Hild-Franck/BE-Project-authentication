@@ -11,7 +11,9 @@ const database = {
 	init: () => init(config).then(db => {
 		database.register = register(db)
 		database.auth = auth(db)
-	}).catch(({ message }) => logger.error(message))
+	}).catch(({ message }) => logger.error(message)),
+	register: () => ({ then: cb => ( cb(), {catch: () => {}})}),
+	auth: () => ({ then: cb => ( cb(), {catch: () => {}})}),
 }
 
 module.exports = database
