@@ -6,6 +6,7 @@
   "scripts": {
     "start:develop": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "start": "node src/index.js",
+    "pretest": "eslint src",
     "test": "nyc --reporter=html --reporter=lcov ava --verbose;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
     "dev": "ava --verbose --watch"
