@@ -20,4 +20,4 @@ const login = {
 	}
 }
 
-export default login
+export { login }
