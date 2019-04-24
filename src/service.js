@@ -1,7 +1,6 @@
 import logger from './logger'
 import { appConfig } from './configs'
-import register from './actions/register'
-import login from './actions/login'
+import { register, login } from './actions'
 
 const brokerLogger = logger.child({ label: "broker" })
 
