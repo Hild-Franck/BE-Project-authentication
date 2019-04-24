@@ -1,33 +1,24 @@
-const hash = require('hash.js')
-const consola = require('consola')
+import path from 'path'
+import crypto from 'crypto'
+import { sha512 } from 'hash.js'
 
-const logger = consola.withScope('authentication')
+const pepper = process.env.PEPPER || ""
 
-const salt = "superjesus"
-
-const auth = db => ({ username, password }) => new Promise((resolve, reject) => {
-	if (!username || !password) {
-		const message = "Incorrect login format"
-		logger.error(message)				
-		return resolve({ validation: false, message })
+const auth = sequelize => {
+	const User = sequelize.import(path.join(__dirname, "/models/User"))
+	return {
+		checkUserExist: username => User.findOne({ where: { username } }),
+		createUser: async (username, password) => {
+			const salt = crypto.randomBytes(16).toString('hex')
+			return User.create({
+				salt,
+				username,
+				password: sha512().update(`${salt}:${pepper}:${password}`).digest('hex')
+			})
+		},
+		getUser: username => User.findOne({ where: { username } }),
+		deleteUser: username => User.destroy({ where: { username } })
 	}
-	db.hgetallAsync(username).then(playerHash => {
-		if (!playerHash) {
-			const message = "Username doesn't exists"
-			logger.error(message)
-			return resolve({ validation: false, message })
-		}
-		const hashedPassword = hash.sha512().update(`${salt}:${password}`).digest("hex")
-		if (hashedPassword != playerHash.password) {
-			const message = `Wrong password for user ${username}`
-			logger.error(message)
-			return resolve({ validation: false, message })
-		}
-		const message = "Logged !"
+}
 
-		logger.success(`User ${username} logged !`)
-		return resolve({ validation: true, message, playerData: playerHash })
-	})
-})
-
-module.exports = auth
+export default auth
