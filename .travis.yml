@@ -11,9 +11,12 @@ env:
   - CC_TEST_REPORTER_ID=9fe8916d10e099f6bdc1b7f1bd9626fad6f4e799f567b4889125c09127617542
   - NODE_ENV=ci
   - SERVER='52.70.188.82'
+  - DATABASE=test
+  - POSTGRES_USER=postgres
+  - POSTGRES_PASSWORD=""
   
 services:
-- redis-server
+- postgresql
 cache:
   directories:
   - node_modules
@@ -27,6 +30,7 @@ install:
 - npm install
 
 before_script:
+  - psql -c 'create database test;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build

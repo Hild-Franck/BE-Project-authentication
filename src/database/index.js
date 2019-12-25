@@ -1,19 +1,51 @@
-const consola = require('consola')
+import Sequelize from 'sequelize'
 
-const init = require('./init')
-const register = require('./register')
-const auth = require('./auth')
-const config = require('./config').redis
+import auth from './auth'
+import { dbConfig } from '../configs'
+import logger from '../logger'
 
-const logger = consola.withScope('db')
+const dbLogger = logger.child({ label: 'database' })
 
-const database = {
-	init: () => init(config).then(db => {
-		database.register = register(db)
-		database.auth = auth(db)
-	}).catch(({ message }) => logger.error(message)),
-	register: () => ({ then: cb => ( cb(), {catch: () => {}})}),
-	auth: () => ({ then: cb => ( cb(), {catch: () => {}})}),
+const logError = error => {
+	dbLogger.error("Unable to initialize database")
+	dbLogger.error(error.message, { meta: {
+		...dbConfig,
+		postgres_password: 'xxxxx'
+	} })
+	process.exit(1)
 }
 
-module.exports = database
+const createSequelize = () => {
+	try {
+		return new Sequelize(
+			dbConfig.database,
+			dbConfig.postgres_user,
+			dbConfig.postgres_password,
+			{
+				...dbConfig.options,
+				logging: process.env.NODE_ENV === "development" ? dbLogger.debug : false
+			}
+		)
+	} catch (error) {
+		logError(error)
+	}
+}
+
+const sequelize = createSequelize()
+
+const database = {
+	init: async () => {
+		try {
+			await sequelize.sync()
+		} catch (error) {
+			logError(error)
+		}
+		dbLogger.info(
+			'Database initialized with the following config',
+			{ meta: { ...dbConfig, postgres_password: 'xxxxx' } }
+		)
+	},
+	auth: auth(sequelize)
+}
+
+export default database
