@@ -1,10 +1,10 @@
-import { map } from 'lodash'
+const env = process.env
 
-const env = map(process.env, key => key.toUpperCase())
-
-const overrideConfig = config => Object.keys(config).reduce((newConfig, key) => {
-	newConfig[key] = env[env] || config[key]
-	return newConfig
-}, {})
+const overrideConfig = config => Object.keys(config)
+	.reduce((newConfig, key) => {
+		const upperCaseKey = key.toUpperCase()
+		newConfig[key] = env[upperCaseKey] || config[key]
+		return newConfig
+	}, {})
 
 export { overrideConfig }
