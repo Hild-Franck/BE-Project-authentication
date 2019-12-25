@@ -19,7 +19,7 @@ const createSequelize = () => {
 		)
 	} catch (error) {
 		dbLogger.error("Unable to initialize database")
-		dbLogger.error(error.message, { meta: { ...dbConfig, dbPassword: 'xxxxx' } })
+		dbLogger.error(error.message, { meta: { ...dbConfig, postgres_password: 'xxxxx' } })
 		process.exit(1)
 	}
 }
@@ -32,12 +32,12 @@ const database = {
 			await sequelize.sync()
 		} catch (error) {
 			dbLogger.error("Unable to initialize database")
-			dbLogger.error(error.message, { meta: { ...dbConfig, dbPassword: 'xxxxx' } })
+			dbLogger.error(error.message, { meta: { ...dbConfig, postgres_password: 'xxxxx' } })
 			process.exit(1)
 		}
 		dbLogger.info(
 			'Database initialized with the following config',
-			{ meta: { ...dbConfig, dbPassword: 'xxxxx' } }
+			{ meta: { ...dbConfig, postgres_password: 'xxxxx' } }
 		)
 	},
 	auth: auth(sequelize)
