@@ -1,6 +1,6 @@
 {
   "name": "be-project-authentication",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Authentication service for the BE-Project stack",
   "main": "index.js",
   "scripts": {
