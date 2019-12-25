@@ -16,7 +16,7 @@ env:
   - POSTGRES_PASSWORD=""
   
 services:
-- postgres
+- postgresl
 cache:
   directories:
   - node_modules
