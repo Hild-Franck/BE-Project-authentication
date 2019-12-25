@@ -6,6 +6,15 @@ import logger from '../logger'
 
 const dbLogger = logger.child({ label: 'database' })
 
+const logError = error => {
+	dbLogger.error("Unable to initialize database")
+	dbLogger.error(error.message, { meta: {
+		...dbConfig,
+		postgres_password: 'xxxxx'
+	} })
+	process.exit(1)
+}
+
 const createSequelize = () => {
 	try {
 		return new Sequelize(
@@ -18,9 +27,7 @@ const createSequelize = () => {
 			}
 		)
 	} catch (error) {
-		dbLogger.error("Unable to initialize database")
-		dbLogger.error(error.message, { meta: { ...dbConfig, postgres_password: 'xxxxx' } })
-		process.exit(1)
+		logError(error)
 	}
 }
 
@@ -31,9 +38,7 @@ const database = {
 		try {
 			await sequelize.sync()
 		} catch (error) {
-			dbLogger.error("Unable to initialize database")
-			dbLogger.error(error.message, { meta: { ...dbConfig, postgres_password: 'xxxxx' } })
-			process.exit(1)
+			logError(error)
 		}
 		dbLogger.info(
 			'Database initialized with the following config',

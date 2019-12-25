@@ -1,4 +1,6 @@
-const dbConfig = {
+import { overrideConfig } from '../utils'
+
+const config = {
 	database: 'pikachu',
 	postgres_user: 'pikachu',
 	postgres_password: 'jesus',
@@ -10,16 +12,8 @@ const dbConfig = {
 	}
 }
 
-const env = process.env
+const dbConfig = overrideConfig(config)
 
-// Override config with env
-Object.keys(dbConfig).forEach(key => {
-	const envKey = key.toUpperCase()
-	if (env[envKey]) dbConfig[key] = env[envKey]
-})
-
-dbConfig.options.host = env.POSTGRES_HOST
-	? env.POSTGRES_HOST
-	: dbConfig.options.host
+dbConfig.options.host = process.env.POSTGRES_HOST || dbConfig.options.host
 
 export { dbConfig }
