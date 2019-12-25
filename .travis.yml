@@ -47,8 +47,8 @@ before_deploy:
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
 
-deploy:
-  provider: script
-  script: bash scripts/deploy.bash
-  on:
-    branch: master
+# deploy:
+#   provider: script
+#   script: bash scripts/deploy.bash
+#   on:
+#     branch: master
