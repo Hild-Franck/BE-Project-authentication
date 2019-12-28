@@ -17,6 +17,7 @@ const auth = sequelize => {
 			})
 		},
 		getUser: username => User.findOne({ where: { username } }),
+		getUserById: (username, _id) => User.findOne({ where: { username, _id } }),
 		deleteUser: username => User.destroy({ where: { username } })
 	}
 }
