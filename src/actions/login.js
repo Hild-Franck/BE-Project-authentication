@@ -1,5 +1,7 @@
-import database from '../database'
 import { sha512 } from 'hash.js'
+
+import token from '../token.js'
+import database from '../database'
 
 const pepper = process.env.PEPPER || ""
 
@@ -13,7 +15,8 @@ const login = {
 		if (!user) throw new Error("User doesn't exist")
 		const hash = `${user.salt}:${pepper}:${password}`
 		if (sha512().update(hash).digest('hex') == user.password) {
-			return user.toObject()
+			const newToken = token.create({ username: user.username, id: user._id })
+			return { ...user.toObject(), token: newToken }
 		} else {
 			throw new Error("Invalid password")
 		}

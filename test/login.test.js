@@ -3,6 +3,7 @@ import { ServiceBroker } from 'moleculer'
 
 import service from '../src/service'
 import database from '../src/database'
+import token from '../src/token'
 
 const broker = new ServiceBroker()
 broker.createService(service)
@@ -38,10 +39,15 @@ ava('should return error if wrong password', async t => {
 	}
 })
 
-ava('should return user if right username and password', async t => {
+ava('should return user if right username, password and token', async t => {
 	try {
 		const res = await broker.call("auth.login", user)
+		const payload = token.verify(res.token)
+		console.log(payload)
+		
+		
 		t.is(res.username, user.username)
+		t.is(payload.username, user.username)
 	} catch(error) {
 		t.fail(error)
 	}
