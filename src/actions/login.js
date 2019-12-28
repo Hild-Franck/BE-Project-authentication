@@ -15,7 +15,7 @@ const login = {
 		if (!user) throw new Error("User doesn't exist")
 		const hash = `${user.salt}:${pepper}:${password}`
 		if (sha512().update(hash).digest('hex') == user.password) {
-			const newToken = token.create({ username: user.username, id: user._id })
+			const newToken = token.create({ username: user.username, id: user.id })
 			return { ...user.toObject(), token: newToken }
 		} else {
 			throw new Error("Invalid password")

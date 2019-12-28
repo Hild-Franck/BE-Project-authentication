@@ -1,6 +1,6 @@
 import logger from './logger'
 import { appConfig } from './configs'
-import { register, login } from './actions'
+import { register, login, authenticate } from './actions'
 
 const brokerLogger = logger.child({ label: "broker" })
 
@@ -11,7 +11,7 @@ const errorHandler = (ctx, err) => {
 
 const service = {
 	name: appConfig.service,
-	actions: { register, login },
+	actions: { register, login, authenticate },
 	hooks: {
 		error: {
 			"*": errorHandler

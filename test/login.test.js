@@ -43,8 +43,6 @@ ava('should return user if right username, password and token', async t => {
 	try {
 		const res = await broker.call("auth.login", user)
 		const payload = token.verify(res.token)
-		console.log(payload)
-		
 		
 		t.is(res.username, user.username)
 		t.is(payload.username, user.username)
