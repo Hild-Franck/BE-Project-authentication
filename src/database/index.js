@@ -31,7 +31,7 @@ const createSequelize = () => {
 	}
 }
 
-const sequelize = createSequelize()
+export const sequelize = createSequelize()
 
 const database = {
 	init: async () => {

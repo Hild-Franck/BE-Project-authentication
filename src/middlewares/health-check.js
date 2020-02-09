@@ -1,6 +1,7 @@
 import http from 'http'
 
 import logger from '../logger'
+import { sequelize } from '../database'
 
 const reqLogger = logger.child({ label: 'http-request' })
 
@@ -9,18 +10,24 @@ const headers = {
 }
 
 const state = {
-	up: false,
-	lastUpdate: Date.now(),
-	updateState: (isUp=false) => {
-		state.up = isUp
-		state.lastUpdate = Date.now()
+	data: { up: false, timestamp: Date.now(), err: null },
+	updateState: async () => {
+		try {
+			await sequelize.authenticate()
+			state.data.up = true
+		} catch(e) {
+			state.data.up = false
+			state.data.err = "Unable to connect to database"
+		}
+		state.data.timestamp = Date.now()
 	}
 }
 
-const requestHandler = (req, res) => {
+const requestHandler = async (req, res) => {
 	if(req.url == '/health') {
+		await state.updateState()
 		res.writeHead(state.up ? 200 : 500, headers)
-		res.end(JSON.stringify(state, null, 2))
+		res.end(JSON.stringify(state.data, null, 2))
 	} else {
 		res.writeHead(404, http.STATUS_CODES[404], {})
 		res.end()
@@ -32,7 +39,7 @@ const server = http.createServer(requestHandler)
 
 export default {
 	created: () => server.listen(3000),
-	started: () => state.updateState(true),
-	stopping: () => state.updateState(),
-	stopped: () => state.updateState() && server.close()
+	started: () => state.data.up = true,
+	stopping: () => state.data.up = false,
+	stopped: () => state.data.up = false && server.close()
 }
