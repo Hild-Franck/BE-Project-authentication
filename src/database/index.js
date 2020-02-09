@@ -23,7 +23,7 @@ const createSequelize = () => {
 			dbConfig.postgres_password,
 			{
 				...dbConfig.options,
-				logging: process.env.NODE_ENV === "development" ? dbLogger.debug : false
+				logging: process.env.NODE_ENV === "development" ? dbLogger.debug.bind(dbLogger) : false
 			}
 		)
 	} catch (error) {

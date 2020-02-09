@@ -9,6 +9,10 @@ const customLevels = {
 	colors: {crit:'red', error:'red', warning:'yellow', info:'white', debug:'grey'}
 }
 
+const logLevel = process.env.LOG_LEVEL
+	|| process.env.NODE_ENV == 'development' && 'debug'
+	|| 'info'
+
 const timeFormat = 'DD-MM-YYYY HH:mm:ss'
 
 const format = process.env.NODE_ENV === 'production'
@@ -31,7 +35,7 @@ const format = process.env.NODE_ENV === 'production'
 
 const logger = winston.createLogger({
 	levels: customLevels.levels,
-	level: process.env.LOG_LEVEL || 'info',
+	level: logLevel,
 	transports: [new winston.transports.Console({ format })],
 	format: combine(
 		timestamp(),

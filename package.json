@@ -7,9 +7,9 @@
     "start:develop": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "start": "node src/index.js",
     "pretest": "eslint src",
-    "test": "nyc --reporter=html --reporter=lcov ava --verbose;",
+    "test": "SECRET=sec nyc --reporter=html --reporter=lcov ava --verbose;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
-    "dev": "ava --verbose --watch"
+    "dev": "SECRET=sec ava --verbose --watch"
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "hash.js": "^1.1.7",
+    "jsonwebtoken": "^8.5.1",
     "moleculer": "^0.13.9",
     "nats": "^1.2.10",
     "pg": "^7.10.0",
