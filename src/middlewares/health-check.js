@@ -26,7 +26,7 @@ const state = {
 const requestHandler = async (req, res) => {
 	if(req.url == '/health') {
 		await state.updateState()
-		res.writeHead(state.up ? 200 : 500, headers)
+		res.writeHead(state.data.up ? 200 : 500, headers)
 		res.end(JSON.stringify(state.data, null, 2))
 	} else {
 		res.writeHead(404, http.STATUS_CODES[404], {})
