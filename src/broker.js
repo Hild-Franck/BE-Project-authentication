@@ -1,4 +1,5 @@
 import { ServiceBroker } from 'moleculer'
+import healtMiddleware from './middlewares/health-check'
 
 import { appConfig } from './configs'
 import logger from './logger'
@@ -9,6 +10,7 @@ const urls = [ `nats://${appConfig.nats_host}:4222` ]
 
 const start = async () => {
 	const broker = new ServiceBroker({
+		middlewares: [healtMiddleware],
 		logger: brokerLogger,
 		requestRetry: 20,
 		transporter: { type: "NATS", urls }
