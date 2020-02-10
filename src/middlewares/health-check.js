@@ -15,6 +15,7 @@ const state = {
 		try {
 			await sequelize.authenticate()
 			state.data.up = true
+			state.data.err = null
 		} catch(e) {
 			state.data.up = false
 			state.data.err = "Unable to connect to database"
