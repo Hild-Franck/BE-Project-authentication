@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize'
+import { Sequelize } from 'sequelize'
 
 import auth from './auth'
 import { dbConfig } from '../configs'
@@ -36,6 +36,8 @@ export const sequelize = createSequelize()
 const database = {
 	init: async () => {
 		try {
+			await sequelize.authenticate()
+			database.auth = auth(sequelize)
 			await sequelize.sync()
 		} catch (error) {
 			logError(error)
@@ -44,8 +46,7 @@ const database = {
 			'Database initialized with the following config',
 			{ meta: { ...dbConfig, postgres_password: 'xxxxx' } }
 		)
-	},
-	auth: auth(sequelize)
+	}
 }
 
 export default database

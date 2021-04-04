@@ -7,7 +7,7 @@
     "start:develop": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "start": "node src/index.js",
     "pretest": "eslint src",
-    "test": "SECRET=sec nyc --reporter=html --reporter=lcov ava --verbose;",
+    "test": "NODE_ENV=development SECRET=sec nyc --reporter=html --reporter=lcov ava --verbose --timeout=10s;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
     "dev": "SECRET=sec ava --verbose --watch"
   },
@@ -50,8 +50,8 @@
     "jsonwebtoken": "^8.5.1",
     "moleculer": "^0.13.9",
     "nats": "^1.2.10",
-    "pg": "^7.10.0",
-    "sequelize": "^5.7.5",
+    "pg": "^8.5.1",
+    "sequelize": "^6.6.2",
     "winston": "^3.2.1"
   }
 }

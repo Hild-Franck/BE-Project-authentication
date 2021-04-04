@@ -1,11 +1,12 @@
-import path from 'path'
 import crypto from 'crypto'
 import { sha512 } from 'hash.js'
+
+import createUserModel from './models/User'
 
 const pepper = process.env.PEPPER || ""
 
 const auth = sequelize => {
-	const User = sequelize.import(path.join(__dirname, "/models/User"))
+	const User = createUserModel(sequelize)
 	return {
 		checkUserExist: username => User.findOne({ where: { username } }),
 		createUser: async (username, password) => {

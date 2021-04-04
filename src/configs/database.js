@@ -7,8 +7,7 @@ const config = {
 	options: {
 		dialect: "postgres",
 		host: "localhost",
-		port: "5432",
-		operatorsAliases: false,
+		port: "5432"
 	}
 }
 

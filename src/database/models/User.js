@@ -1,5 +1,7 @@
-const userModel = (sequelize, DataTypes) => {
-	const User = sequelize.define("user", {
+import { DataTypes } from 'sequelize'
+
+const createUserModel = sequelize => {
+	const User = sequelize.define("users", {
 		username: { type: DataTypes.STRING, validate: { len: [3, 20] } },
 		password: { type: DataTypes.STRING },
 		salt: DataTypes.STRING
@@ -7,7 +9,8 @@ const userModel = (sequelize, DataTypes) => {
 		indexes: [{
 			unique: true,
 			fields: ['username']
-		}]
+		}],
+		tableName: "users"
 	})
 
 	User.prototype.toObject = function() {
@@ -21,4 +24,4 @@ const userModel = (sequelize, DataTypes) => {
 	return User
 }
 
-export default userModel
+export default createUserModel

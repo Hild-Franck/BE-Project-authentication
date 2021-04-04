@@ -16,6 +16,7 @@ ava.before(async () => {
 	await database.auth.deleteUser(user.username)
 	createdUser = await database.auth.createUser(user.username, user.password)
 	await broker.start()
+
 })
 
 ava.after(async () => {
@@ -37,7 +38,7 @@ ava('should return user if right token', async t => {
 		const res = await broker.call("auth.authenticate", {
 			token: token.create({ username: createdUser.username, id: createdUser.id })
 		})
-		
+
 		t.is(res.username, user.username)
 	} catch(error) {
 		t.fail(error)
