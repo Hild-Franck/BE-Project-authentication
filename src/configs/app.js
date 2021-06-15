@@ -5,7 +5,7 @@ const config = {
 	node_env: 'development',
 	version: 'development',
 	service: 'auth',
-	nats_host: 'localhost'
+	nats_host: 'nats'
 }
 
 const appConfig = overrideConfig(config)

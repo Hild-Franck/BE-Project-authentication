@@ -10,7 +10,7 @@ const errorHandler = (ctx, err) => {
 }
 
 const service = {
-	name: appConfig.service,
+	name: 'auth',
 	actions: { register, login, authenticate },
 	hooks: {
 		error: {

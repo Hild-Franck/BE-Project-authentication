@@ -1,4 +1,8 @@
+import { Errors } from 'moleculer'
+
 import database from '../database'
+
+const { MoleculerError } = Errors
 
 const register = {
 	params: {
@@ -8,10 +12,10 @@ const register = {
 	handler: async ({ params: { username, password } }) => {
 		const userExist = await database.auth.checkUserExist(username)
 		if (userExist) {
-			throw new Error("User already exist")
+			throw new MoleculerError("User already exist", 409, "USER_EXISTS")
 		}
 		const user = await database.auth.createUser(username, password)
-		return user.toObject()
+		return { username: user.username }
 	}
 }
 

@@ -6,6 +6,8 @@
   "scripts": {
     "start:develop": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "start": "node src/index.js",
+    "build": "npm run clean && babel ./src --out-dir dist",
+    "clean": "rm -rf ./dist && mkdir dist",
     "pretest": "eslint src",
     "test": "NODE_ENV=development SECRET=sec nyc --reporter=html --reporter=lcov ava --verbose --timeout=10s;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
@@ -31,7 +33,6 @@
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
-    "@babel/runtime": "^7.4.3",
     "ava": "^1.4.1",
     "eslint": "^5.16.0",
     "nodemon": "^1.18.11",
@@ -46,10 +47,11 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "hash.js": "^1.1.7",
     "jsonwebtoken": "^8.5.1",
-    "moleculer": "^0.13.9",
-    "nats": "^1.2.10",
+    "moleculer": "^0.14.13",
+    "nats": "^1.4.12",
     "pg": "^8.5.1",
     "sequelize": "^6.6.2",
     "winston": "^3.2.1"

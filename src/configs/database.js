@@ -6,7 +6,7 @@ const config = {
 	postgres_password: 'jesus',
 	options: {
 		dialect: "postgres",
-		host: "localhost",
+		host: "postgres",
 		port: "5432"
 	}
 }

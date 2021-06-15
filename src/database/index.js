@@ -22,7 +22,9 @@ const createSequelize = () => {
 			dbConfig.postgres_user,
 			dbConfig.postgres_password,
 			{
-				...dbConfig.options,
+				dialect: 'postgres',
+				host: 'postgres',
+				port: 5432,
 				logging: process.env.NODE_ENV === "development" ? dbLogger.debug.bind(dbLogger) : false
 			}
 		)
