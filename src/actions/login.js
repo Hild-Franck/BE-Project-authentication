@@ -19,7 +19,7 @@ const login = {
 		const hash = `${user.salt}:${pepper}:${password}`
 		if (sha512().update(hash).digest('hex') == user.password) {
 			const newToken = token.create({ username: user.username, id: user.id })
-			return { token: newToken }
+			return { token: newToken, username: user.username }
 		} else {
 			throw new MoleculerError("Invalid password", 400, "WRONG_PASSWORD")
 		}
